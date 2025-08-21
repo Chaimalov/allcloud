@@ -1,0 +1,11 @@
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@parcel/watcher'
+  - '@swc/core'
+  - better-sqlite3
+  - esbuild
+  - lmdb
+  - msgpackr-extract
+  - nx
+  - sqlite3
+  - unrs-resolver
