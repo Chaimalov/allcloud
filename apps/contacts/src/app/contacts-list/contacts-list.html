@@ -1,5 +1,5 @@
 <ul>
-  @for (contact of contacts.value(); track contact.id) {
+  @for (contact of sortedContacts(); track contact.id) {
   <li>
     <app-contact-item [contact]="contact"></app-contact-item>
   </li>

@@ -1,63 +1,66 @@
 /* You can add global styles to this file, and also import other style files */
+@import './button.css';
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'FiraSans';
   font-weight: 400;
-  src: url('../assets/fonts/RobotoCondensed-Regular.woff2') format('woff2'),
-    url('../assets/fonts/RobotoCondensed-Regular.woff') format('woff');
+  src: url('../assets/fonts/FiraSans-Regular.woff2') format('woff2'),
+    url('../assets/fonts/FiraSans-Regular.woff') format('woff');
 }
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'FiraSans';
   font-weight: 300;
-  src: url('../assets/fonts/RobotoCondensed-Light.woff2') format('woff2'),
-    url('../assets/fonts/RobotoCondensed-Light.woff') format('woff');
+  src: url('../assets/fonts/FiraSans-Light.woff2') format('woff2'),
+    url('../assets/fonts/FiraSans-Light.woff') format('woff');
 }
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'FiraSans';
   font-weight: 700;
-  src: url('../assets/fonts/RobotoCondensed-Bold.woff2') format('woff2'),
-    url('../assets/fonts/RobotoCondensed-Bold.woff') format('woff');
+  src: url('../assets/fonts/FiraSans-Bold.woff2') format('woff2'),
+    url('../assets/fonts/FiraSans-Bold.woff') format('woff');
 }
 
 @property --surface-1 {
   syntax: '<color>';
-  initial-value: #0d1b2a;
 }
 
 @property --surface-2 {
   syntax: '<color>';
-  initial-value: #1b263b;
 }
 
 @property --surface-3 {
   syntax: '<color>';
-  initial-value: #415a77;
 }
 
 @property --surface-4 {
   syntax: '<color>';
-  initial-value: #778da9;
 }
 
 @property --surface-5 {
   syntax: '<color>';
-  initial-value: #e0e1dd;
 }
 
 :root {
-  --surface-1: #0d1b2a;
-  --surface-2: #1b263b;
-  --surface-3: #415a77;
-  --surface-4: #778da9;
-  --surface-5: #e0e1dd;
+  --surface-1: rgb(27, 2, 53);
+  --surface-3: rgb(142, 130, 154);
+  --surface-4: rgb(233, 233, 235);
+  --surface-5: rgb(250, 250, 250);
+  --accent: rgb(18, 138, 51);
+
+  --danger-1: rgb(255, 0, 0);
+  --danger-2: rgb(255, 100, 100);
+  --danger-3: rgb(255, 200, 200);
 
   color-scheme: light dark;
-  background-color: light-dark(var(--surface-4), var(--surface-1));
+  background-color: light-dark(
+    color-mix(in hsl, var(--surface-3), transparent 80%),
+    var(--surface-1)
+  );
   color: light-dark(var(--surface-1), var(--surface-5));
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'FiraSans', sans-serif;
 }

@@ -1,27 +1,30 @@
-@if (contact.hasValue()) {
 <form>
   <header>
-    <a routerLink="/contacts">
+    <a routerLink="/contacts" class="button">
       <lucide-icon [name]="ArrowLeft" size="24" />
     </a>
     @if (!isEditing()) {
-    <button (click)="isEditing.set(true)">
+    <button (click)="isEditing.set(true)" class="button">
       <lucide-icon [name]="UserRoundPen" size="24" />
     </button>
     } @else {
-    <button (click)="isEditing.set(false)">
+    <button (click)="isEditing.set(false)" class="button">
       <lucide-icon [name]="Check" size="24" />
     </button>
     }
   </header>
 
+  @if (contact.value()?.picture; as picture) {
   <img
     width="200"
     height="200"
     priority="high"
-    [ngSrc]="contact.value().picture.large"
+    [ngSrc]="picture.large"
     [alt]="`photo of ${ firstName() } ${ lastName() }`"
   />
+  } @else {
+  <lucide-icon class="avatar" [name]="UserRound" size="200" />
+  }
 
   <h3>{{ title() }}. {{ firstName() }} {{ lastName() }}</h3>
 
@@ -92,8 +95,8 @@
       [ngModelOptions]="{standalone: true}"
     />
     <input
-      type="number"
-      placeholder="Apartment number"
+      type="string"
+      placeholder="Apartment"
       name="house"
       [readOnly]="!isEditing()"
       [(ngModel)]="house"
@@ -124,7 +127,7 @@
       [ngModelOptions]="{standalone: true}"
     />
     <input
-      type="number"
+      type="string"
       placeholder="Postcode"
       name="postcode"
       [readOnly]="!isEditing()"
@@ -133,4 +136,13 @@
     />
   </fieldset>
 </form>
+
+@if (contact.hasValue()) {
+<button
+  class="button button-danger"
+  (click)="api.deleteContact(contact.value().id); router.navigate(['/contacts'])"
+>
+  <lucide-icon [name]="Trash" size="18" />
+  <span>Delete</span>
+</button>
 }

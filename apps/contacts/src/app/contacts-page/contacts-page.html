@@ -1,4 +1,12 @@
 <header>
-  <button (click)="api.loadRandomContacts()">Load Random Contacts</button>
+  <h1>Contacts</h1>
+  <button (click)="api.loadRandomContacts()" class="button">
+    <lucide-icon [name]="Dices" size="24" />
+  </button>
+  <a routerLink="/contacts/new" class="button">
+    <lucide-icon [name]="UserRoundPlus" size="24" />
+  </a>
 </header>
-<app-contacts-list></app-contacts-list>
+<main>
+  <app-contacts-list></app-contacts-list>
+</main>

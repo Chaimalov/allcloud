@@ -8,11 +8,14 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   ArrowLeft,
   Check,
+  CornerUpLeft,
   LucideAngularModule,
+  Trash,
+  UserRound,
   UserRoundPen,
 } from 'lucide-angular';
 import { firstValueFrom } from 'rxjs';
@@ -26,13 +29,16 @@ import { ContactsApi } from '../api';
 })
 export class ContactDetailsPageComponent {
   public api = inject(ContactsApi);
-  public id = input.required<number>();
+  public router = inject(Router);
+  public id = input<number>();
 
+  protected UserRound = UserRound;
   protected UserRoundPen = UserRoundPen;
   protected Check = Check;
-  protected ArrowLeft = ArrowLeft;
+  protected ArrowLeft = CornerUpLeft;
+  protected Trash = Trash;
 
-  protected isEditing = signal(false);
+  protected isEditing = linkedSignal(() => this.id() === undefined);
 
   protected contact = resource({
     params: this.id,

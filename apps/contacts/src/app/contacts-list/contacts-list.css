@@ -5,9 +5,13 @@
     list-style: none;
     padding-inline-start: 0;
 
-    > * + * {
-      border: 0px solid gray;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
+
+    /* > * + * {
+      border: 0px solid light-dark(var(--surface-4), var(--surface-2));
       border-block-start-width: 1px;
-    }
+    } */
   }
 }

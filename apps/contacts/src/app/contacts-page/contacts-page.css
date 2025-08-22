@@ -1,0 +1,16 @@
+:host {
+  display: grid;
+
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  main {
+    padding: 1rem;
+    background: light-dark(var(--surface-5), var(--surface-1));
+    border-radius: 1rem;
+  }
+}

@@ -1,0 +1,46 @@
+.button {
+  background: light-dark(var(--surface-4), var(--surface-2));
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  color: light-dark(var(--surface-1), var(--surface-5));
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out;
+
+  /* very new but awesome! */
+  @supports (corner-shape: squircle) {
+    border-radius: 1rem;
+    corner-shape: squircle;
+  }
+
+  svg {
+    vertical-align: middle;
+  }
+
+  &:hover {
+    background: light-dark(
+      var(--surface-4),
+      color-mix(in hsl, var(--surface-3), transparent 80%)
+    );
+  }
+
+  &:has(:only-child) > lucide-icon {
+    aspect-ratio: 1;
+  }
+
+  &.button-danger {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--danger-1);
+    color: light-dark(var(--danger-3), var(--danger-3));
+
+    &:hover {
+      background: light-dark(
+        var(--danger-1),
+        color-mix(in hsl, var(--danger-1), transparent 50%)
+      );
+    }
+  }
+}

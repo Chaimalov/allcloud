@@ -1,6 +1,5 @@
-import { Contact } from '@allcloud/contacts';
-import { httpResource } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { ContactsApi } from '../api';
 import { ContactItemComponent } from '../contact-item/contact-item';
 
 @Component({
@@ -10,7 +9,11 @@ import { ContactItemComponent } from '../contact-item/contact-item';
   imports: [ContactItemComponent],
 })
 export class ContactsListComponent {
-  protected contacts = httpResource<Contact[]>(
-    () => 'http://localhost:3000/api/contacts'
+  protected api = inject(ContactsApi);
+
+  protected sortedContacts = computed(() =>
+    this.api.contacts
+      .value()
+      ?.sort((a, b) => a.name.last.localeCompare(b.name.last))
   );
 }
