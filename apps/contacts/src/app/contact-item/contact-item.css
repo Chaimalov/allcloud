@@ -1,0 +1,27 @@
+:host {
+  display: block;
+
+  a {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 150ms ease-in-out;
+
+    &:hover {
+      background: light-dark(var(--surface-5), var(--surface-2));
+    }
+
+    &:visited {
+      color: inherit;
+    }
+  }
+
+  img {
+    border-radius: 100vmax;
+    object-fit: cover;
+  }
+}

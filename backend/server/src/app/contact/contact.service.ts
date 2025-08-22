@@ -19,7 +19,12 @@ export class ContactService {
   }
 
   async create(contact: Contact): Promise<Contact> {
-    return this.contactRepository.save(this.contactRepository.create(contact));
+    return this.contactRepository.save(
+      this.contactRepository.create({
+        ...contact,
+        registrationDate: new Date(),
+      })
+    );
   }
 
   async update(id: number, contact: Contact): Promise<Contact> {

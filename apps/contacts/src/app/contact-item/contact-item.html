@@ -1,0 +1,9 @@
+<a [routerLink]="['/contacts', contact().id]">
+  <img
+    width="30"
+    height="30"
+    [ngSrc]="contact().picture.thumbnail"
+    [alt]="`profile picture of ${contact().name.first} ${contact().name.last}`"
+  />
+  <span>{{ contact().name.first }} {{ contact().name.last }}</span>
+</a>

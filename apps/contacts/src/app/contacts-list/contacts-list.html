@@ -1,5 +1,9 @@
 <ul>
+  @for (contact of contacts.value(); track contact.id) {
   <li>
-    <app-contact-item></app-contact-item>
+    <app-contact-item [contact]="contact"></app-contact-item>
   </li>
+  } @empty {
+  <span>No contacts found.</span>
+  }
 </ul>

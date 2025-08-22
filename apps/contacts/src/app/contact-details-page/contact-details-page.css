@@ -1,0 +1,87 @@
+:host {
+  display: block;
+  padding: 1rem;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  a,
+  button {
+    background: light-dark(var(--surface-5), var(--surface-3));
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    color: light-dark(var(--surface-1), var(--surface-5));
+    aspect-ratio: 1;
+    cursor: pointer;
+
+    svg {
+      vertical-align: middle;
+    }
+
+    &:hover {
+      background: light-dark(var(--surface-4), var(--surface-3));
+    }
+  }
+
+  form {
+    display: grid;
+    gap: 1rem;
+
+    img {
+      margin-inline: auto;
+      border-radius: 100vmax;
+
+      /* very new but awesome! */
+      @supports (corner-shape: squircle) {
+        corner-shape: squircle;
+      }
+    }
+
+    h3 {
+      place-self: center;
+      font-size: 1.5rem;
+    }
+
+    fieldset {
+      display: grid;
+      overflow: clip;
+      padding: 0;
+      background: light-dark(var(--surface-5), var(--surface-2));
+      border-radius: 1rem;
+      border: none;
+      transition: background-color 150ms ease-in-out;
+
+      &:has(:read-only) {
+        background: light-dark(
+          var(--surface-5),
+          color-mix(in hsl, var(--surface-2), transparent 50%)
+        );
+      }
+    }
+
+    input {
+      font-family: inherit;
+      padding: 1rem;
+      border: none;
+      background: transparent;
+
+      &:read-only {
+        pointer-events: none;
+      }
+
+      &:focus {
+        outline: none;
+        background-color: light-dark(var(--surface-5), var(--surface-3));
+      }
+    }
+
+    fieldset > * + * {
+      border: 0px solid light-dark(var(--surface-4), var(--surface-1));
+      border-block-start-width: 1px;
+    }
+  }
+}

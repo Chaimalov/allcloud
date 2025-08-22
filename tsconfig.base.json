@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@allcloud/contacts": ["packages/contacts/src/index.ts"],
       "@allcloud/server": ["backend/server/src/index.ts"]
     }
   },

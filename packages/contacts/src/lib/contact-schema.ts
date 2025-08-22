@@ -1,19 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Contact as ContactSchema } from '@allcloud/contacts';
-
-@Entity()
-export class Contact implements ContactSchema {
-  @PrimaryGeneratedColumn()
+export interface Contact {
   id: number;
-
-  @Column('simple-json')
   name: {
     title: string;
     first: string;
     last: string;
   };
-
-  @Column('simple-json')
   location: {
     street: {
       number: number;
@@ -24,23 +15,22 @@ export class Contact implements ContactSchema {
     country: string;
     postcode: number;
   };
-
-  @Column()
   email: string;
-
-  @Column()
   registrationDate: Date;
-
-  @Column()
   phone: string;
-
-  @Column()
   cell: string;
-
-  @Column('simple-json')
   picture: {
     large: string;
     medium: string;
     thumbnail: string;
   };
 }
+
+export const CONTACT_FIELDS = [
+  'name',
+  'location',
+  'email',
+  'phone',
+  'cell',
+  'picture',
+] as const satisfies Array<keyof Contact>;
