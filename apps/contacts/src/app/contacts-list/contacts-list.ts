@@ -14,6 +14,6 @@ export class ContactsListComponent {
   protected sortedContacts = computed(() =>
     this.api.contacts
       .value()
-      ?.sort((a, b) => a.name.last.localeCompare(b.name.last))
+      ?.sort((a, b) => a.name?.last?.localeCompare(b.name?.last ?? '') ?? 0)
   );
 }

@@ -1,30 +1,32 @@
 export interface Contact {
   id: number;
-  name: {
+  name?: Partial<{
     title: string;
     first: string;
     last: string;
-  };
-  location: {
-    street: {
+  }>;
+  location?: Partial<{
+    street: Partial<{
       number: number;
       name: string;
-    };
+    }>;
     city: string;
     state: string;
     country: string;
     postcode: number;
-  };
-  email: string;
-  registrationDate: Date;
-  phone: string;
-  cell: string;
-  picture: {
+  }>;
+  email?: string;
+  registrationDate?: Date;
+  phone?: string;
+  cell?: string;
+  picture?: Partial<{
     large: string;
     medium: string;
     thumbnail: string;
-  };
+  }>;
 }
+
+export type NewContact = Omit<Contact, 'id'>;
 
 export const CONTACT_FIELDS = [
   'name',

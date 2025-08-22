@@ -6,14 +6,14 @@ export class Contact implements ContactSchema {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('simple-json')
+  @Column('simple-json', { nullable: true })
   name: {
     title: string;
     first: string;
     last: string;
   };
 
-  @Column('simple-json')
+  @Column('simple-json', { nullable: true })
   location: {
     street: {
       number: number;
@@ -25,19 +25,19 @@ export class Contact implements ContactSchema {
     postcode: number;
   };
 
-  @Column()
+  @Column({ nullable: true })
   email: string;
 
   @Column()
   registrationDate: Date;
 
-  @Column()
+  @Column({ nullable: true })
   phone: string;
 
-  @Column()
+  @Column({ nullable: true })
   cell: string;
 
-  @Column('simple-json')
+  @Column('simple-json', { nullable: true })
   picture: {
     large: string;
     medium: string;

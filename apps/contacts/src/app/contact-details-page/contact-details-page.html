@@ -1,4 +1,4 @@
-<form>
+<form (submit)="save()">
   <header>
     <a routerLink="/contacts" class="button">
       <lucide-icon [name]="ArrowLeft" size="24" />
@@ -14,12 +14,12 @@
     }
   </header>
 
-  @if (contact.value()?.picture; as picture) {
+  @if (contact.value()?.picture?.large; as picture) {
   <img
     width="200"
     height="200"
     priority="high"
-    [ngSrc]="picture.large"
+    [ngSrc]="picture"
     [alt]="`photo of ${ firstName() } ${ lastName() }`"
   />
   } @else {
