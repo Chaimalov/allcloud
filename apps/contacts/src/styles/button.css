@@ -19,14 +19,14 @@
 
   &:hover {
     background: light-dark(
-      var(--surface-3),
+      color-mix(in hsl, var(--surface-3), var(--surface-4) 50%),
       color-mix(in hsl, var(--surface-3), transparent 80%)
     );
   }
 
   &:active {
     background: light-dark(
-      color-mix(in hsl, var(--surface-3), var(--surface-4) 50%),
+      color-mix(in hsl, var(--surface-3), var(--surface-4) 10%),
       color-mix(in hsl, var(--surface-3), transparent 50%)
     );
   }
@@ -39,7 +39,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: color-mix(in hsl, var(--danger-2), transparent 30%);
+    background: color-mix(in hsl, var(--danger-1), transparent 40%);
     color: light-dark(var(--surface-5), var(--danger-3));
 
     &:hover {

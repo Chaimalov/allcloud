@@ -13,6 +13,9 @@ import { RouterLink } from '@angular/router';
 })
 export class ContactsPageComponent {
   protected api = inject(ContactsApi);
-  protected Dices = Dices;
-  protected UserRoundPlus = UserRoundPlus;
+
+  protected icons = {
+    Dices,
+    UserRoundPlus,
+  };
 }
