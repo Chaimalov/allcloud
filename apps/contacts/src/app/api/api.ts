@@ -18,23 +18,22 @@ import { retryOnReconnect } from './replay-on-reconnect';
 const RANDOM_GENERATION_AMOUNT = 5;
 const INCLUDE_FIELDS = CONTACT_FIELDS.join(',');
 
+const SERVER_URL = 'http://localhost:3000/api/contacts';
+
 @Injectable({
   providedIn: 'root',
 })
 export class ContactsApi {
   private http = inject(HttpClient);
 
-  public contacts = httpResource<Array<Contact>>(
-    () => 'http://localhost:3000/api/contacts',
-    {
-      defaultValue: [],
-    },
-  );
+  public contacts = httpResource<Array<Contact>>(() => SERVER_URL, {
+    defaultValue: [],
+  });
 
   public generateRandomContacts(
     amount = RANDOM_GENERATION_AMOUNT,
   ): Promise<Contact[]> {
-    const url = `https://randomuser.me/api/?results=${amount}&inc=${INCLUDE_FIELDS}&noinfo`;
+    const url = `https://randomuser.me/api/1.4/?results=${amount}&inc=${INCLUDE_FIELDS}&noinfo`;
 
     return firstValueFrom(
       this.http.get<{ results: Contact[] }>(url).pipe(
@@ -42,17 +41,12 @@ export class ContactsApi {
           response.results.map((contact) => ({ ...contact, id: v4() })),
         ),
         tap((results) => {
-          document.startViewTransition(() => {
-            this.contacts.update((contacts) => [...contacts, ...results]);
-          });
+          this.contacts.update((contacts) => [...contacts, ...results]);
         }),
         switchMap((results) => {
           return forkJoin(
             results.map((contact) => {
-              return this.http.post<Contact>(
-                'http://localhost:3000/api/contacts',
-                contact,
-              );
+              return this.http.post<Contact>(SERVER_URL, contact);
             }),
           );
         }),
@@ -67,9 +61,7 @@ export class ContactsApi {
     }
 
     return firstValueFrom(
-      this.http.get<Contact | undefined>(
-        `http://localhost:3000/api/contacts/${id}`,
-      ),
+      this.http.get<Contact | undefined>(`${SERVER_URL}/${id}`),
     );
   }
 
@@ -79,9 +71,7 @@ export class ContactsApi {
     );
 
     return firstValueFrom(
-      this.http
-        .delete<void>(`http://localhost:3000/api/contacts/${id}`)
-        .pipe(retryOnReconnect()),
+      this.http.delete<void>(`${SERVER_URL}/${id}`).pipe(retryOnReconnect()),
     );
   }
 
@@ -107,23 +97,33 @@ export class ContactsApi {
       ),
     );
 
-    return this.http
-      .put<Contact>(`http://localhost:3000/api/contacts/${contact.id}`, contact)
-      .pipe(
-        takeUntil(abortSubject.subject),
-        retryOnReconnect(),
-        finalize(() => {
-          updatedContact.pendingRequest?.()?.complete();
-          updatedContact.pendingRequest?.set(undefined);
-        }),
-      );
+    return this.http.put<Contact>(`${SERVER_URL}/${contact.id}`, contact).pipe(
+      takeUntil(abortSubject.subject),
+      retryOnReconnect(),
+      finalize(() => {
+        updatedContact.pendingRequest?.()?.complete();
+        updatedContact.pendingRequest?.set(undefined);
+      }),
+    );
   }
 
   private createContact(contact: NewContact): Observable<Contact> {
-    this.contacts.update((contacts) => [...contacts, { ...contact, id: v4() }]);
+    const abortSubject = new AbortSubject();
 
-    return this.http
-      .post<Contact>(`http://localhost:3000/api/contacts`, contact)
-      .pipe(retryOnReconnect());
+    const newContact: Contact = {
+      ...contact,
+      id: v4(),
+      pendingRequest: signal(abortSubject),
+    };
+
+    this.contacts.update((contacts) => [...contacts, newContact]);
+
+    return this.http.post<Contact>(SERVER_URL, newContact).pipe(
+      retryOnReconnect(),
+      finalize(() => {
+        newContact.pendingRequest?.()?.complete();
+        newContact.pendingRequest?.set(undefined);
+      }),
+    );
   }
 }

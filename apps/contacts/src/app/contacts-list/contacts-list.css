@@ -9,11 +9,17 @@
     list-style: none;
     padding-inline-start: 0;
     margin-block: 0;
+  }
 
+  .list > .section {
     @container --contacts-list (width > 500px) {
       display: contents;
 
-      > span {
+      ol {
+        display: contents;
+      }
+
+      > .letter {
         display: none;
       }
     }
@@ -22,8 +28,10 @@
   .list {
     height: 100%;
     width: calc(100% - 1rem);
+    align-content: start;
     overflow: auto;
     scroll-behavior: smooth;
+    contain: paint;
 
     scroll-snap-type: y mandatory;
     scroll-marker-group: before;
@@ -44,10 +52,10 @@
       bottom: anchor(bottom);
     }
 
-    > .letter {
+    > .section {
       scroll-snap-align: start;
 
-      span {
+      > span {
         display: block;
         padding: 0.5rem;
         color: var(--surface-3);

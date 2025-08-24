@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ContactsApi } from '../api';
+import { ContactsApi } from '../api/api';
 import { ContactsListComponent } from '../contacts-list/contacts-list';
 import { Dices, LucideAngularModule, UserRoundPlus } from 'lucide-angular';
 import { RouterLink } from '@angular/router';

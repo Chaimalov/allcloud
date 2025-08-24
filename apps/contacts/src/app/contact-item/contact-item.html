@@ -13,9 +13,12 @@
   <span class="name" class="capitalize"
     >{{ contact().name?.first }} {{ contact().name?.last }}</span
   >
-  <small class="phone">{{ contact().phone }}</small>
+  <small class="phone">{{ contact().cell }}</small>
 
   @if (contact().pendingRequest?.()) {
-  <lucide-icon class="icon" [name]="icons.CloudAlert" size="18" />
+  <span class="icon">
+    <lucide-icon [name]="icons.CloudAlert" size="18" />
+    <span>syncing...</span>
+  </span>
   }
 </a>

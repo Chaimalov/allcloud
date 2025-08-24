@@ -1,3 +1,4 @@
+import { Contact, NewContact } from '@allcloud/contacts';
 import { NgOptimizedImage } from '@angular/common';
 import {
   Component,
@@ -10,6 +11,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import {
+  ArrowLeft,
   Check,
   CornerUpLeft,
   LucideAngularModule,
@@ -17,17 +19,16 @@ import {
   UserRound,
   UserRoundPen,
 } from 'lucide-angular';
-import { ContactsApi } from '../api';
-import { Contact, NewContact } from '@allcloud/contacts';
-import { firstValueFrom } from 'rxjs';
 import {
   createFormField,
   createFormGroup,
-  Validators,
+  SIGNAL_INPUT_ERROR_COMPONENT,
   SignalInputDirective,
   SignalInputErrorDirective,
-  SIGNAL_INPUT_ERROR_COMPONENT,
+  Validators,
 } from 'ng-signal-forms';
+import { firstValueFrom } from 'rxjs';
+import { ContactsApi } from '../api/api';
 import { FieldErrorComponent } from './field-error/field-error';
 
 @Component({
@@ -55,11 +56,14 @@ export class ContactDetailsComponent {
 
   public id = input<string>();
 
-  protected UserRound = UserRound;
-  protected UserRoundPen = UserRoundPen;
-  protected Check = Check;
-  protected ArrowLeft = CornerUpLeft;
-  protected Trash = Trash;
+  protected icons = {
+    UserRound,
+    UserRoundPen,
+    Check,
+    CornerUpLeft,
+    Trash,
+    ArrowLeft,
+  };
 
   protected isEditing = linkedSignal(() => this.id() === undefined);
 
@@ -80,7 +84,15 @@ export class ContactDetailsComponent {
         ),
         first: createFormField(
           linkedSignal(() => contact()?.name?.first),
-          { readOnly },
+          {
+            readOnly,
+            validators: [
+              {
+                validator: Validators.minLength(2),
+                message: 'Requires t least 2 characters',
+              },
+            ],
+          },
         ),
         last: createFormField(
           linkedSignal(() => contact()?.name?.last),
@@ -113,7 +125,7 @@ export class ContactDetailsComponent {
           validators: [
             {
               validator: Validators.pattern(
-                /^\(?(\d{3})\)?[-\s.]?(\d{3})[-\s.]?(\d{3})$/,
+                /^\(?(\d{2})\)?[-\s.]?(\d{3})[-\s.]?(\d{4})$/,
               ),
               message: 'Invalid phone number. Format: 12-345-6789',
             },
@@ -122,7 +134,7 @@ export class ContactDetailsComponent {
         },
       ),
       cell: createFormField(
-        linkedSignal(() => contact()?.phone),
+        linkedSignal(() => contact()?.cell),
         {
           validators: [
             {
@@ -167,7 +179,7 @@ export class ContactDetailsComponent {
   });
 
   protected save(): void {
-    if (this.form.valid()) {
+    if (this.form.dirty() && this.form.valid()) {
       const contact = {
         ...this.contact.value(),
         ...this.form.value(),
@@ -176,6 +188,7 @@ export class ContactDetailsComponent {
       firstValueFrom(this.api.saveContact(contact));
 
       this.isEditing.set(false);
+      this.router.navigate(['/contacts']);
     } else {
       this.form.markAllAsTouched();
     }

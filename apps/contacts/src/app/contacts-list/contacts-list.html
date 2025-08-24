@@ -1,19 +1,24 @@
 <ol class="list">
   @if (api.contacts.error()) {
-  <div class="error">
-    <span>Error: {{api.contacts.error()}}</span>
-  </div>
+  <li class="error">
+    <span>Error: {{api.contacts.error()?.message }}</span>
+  </li>
 
-  } @for (letter of groupedContacts() | keyvalue; track letter.key) {
-  <ol class="letter" [attr.data-key]="letter.key">
-    <span>{{letter.key}}</span>
-    @for (contact of letter.value; track contact.id) {
-    <li>
-      <app-contact-item [contact]="contact"></app-contact-item>
-    </li>
-    }
-  </ol>
+  } @else { @for (letter of groupedContacts() | keyvalue; track letter.key) {
+  <li class="section" [attr.data-key]="letter.key">
+    <span class="letter">{{letter.key}}</span>
+    <ol>
+      @for (contact of letter.value; track contact.id) {
+      <li>
+        <app-contact-item
+          [contact]="contact"
+          [style.view-transition-name]="`contact-${contact.id}`"
+        ></app-contact-item>
+      </li>
+      }
+    </ol>
+  </li>
   }@empty {
   <span>No contacts found.</span>
-  }
+  }}
 </ol>

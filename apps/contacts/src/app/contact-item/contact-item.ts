@@ -7,7 +7,7 @@ import {
   User,
   UserRound,
 } from 'lucide-angular';
-import { Contact } from '../abort-subject';
+import { Contact } from '../api/abort-subject';
 
 @Component({
   selector: 'app-contact-item',

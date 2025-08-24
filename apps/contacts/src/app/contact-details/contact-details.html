@@ -1,15 +1,15 @@
 <form (submit)="save()">
   <header>
     <a routerLink="/contacts" class="button">
-      <lucide-icon [name]="ArrowLeft" size="24" />
+      <lucide-icon [name]="icons.ArrowLeft" size="24" />
     </a>
     @if (!isEditing()) {
     <button (click)="isEditing.set(true)" type="button" class="button">
-      <lucide-icon [name]="UserRoundPen" size="24" />
+      <lucide-icon [name]="icons.UserRoundPen" size="24" />
     </button>
     } @else {
     <button type="submit" class="button">
-      <lucide-icon [name]="Check" size="24" />
+      <lucide-icon [name]="icons.Check" size="24" />
     </button>
     }
   </header>
@@ -26,7 +26,7 @@
     [alt]="`photo of ${ name.title.value() }. ${ name.first.value() } ${ name.last.value() }`"
   />
   } @else {
-  <lucide-icon class="avatar" [name]="UserRound" size="200" />
+  <lucide-icon class="avatar" [name]="icons.UserRound" size="200" />
   }
 
   <h3>
@@ -44,6 +44,7 @@
     <input
       type="text"
       placeholder="First Name"
+      required
       name="firstName"
       ngModel
       [formField]="form.controls.name.controls.first"
@@ -60,6 +61,7 @@
       placeholder="Email"
       name="email"
       inputmode="email"
+      required
       ngModel
       [formField]="form.controls.email"
     />
@@ -83,6 +85,7 @@
       inputmode="tel"
       placeholder="Phone"
       name="phone"
+      required
       ngModel
       [formField]="form.controls.phone"
     />
@@ -91,6 +94,7 @@
       inputmode="tel"
       placeholder="Cell"
       name="cell"
+      required
       ngModel
       [formField]="form.controls.cell"
     />
@@ -148,7 +152,7 @@
   class="button button-danger"
   (click)="api.deleteContact(contact.value().id); router.navigate(['/contacts'])"
 >
-  <lucide-icon [name]="Trash" size="18" />
+  <lucide-icon [name]="icons.Trash" size="18" />
   <span>Delete</span>
 </button>
 }

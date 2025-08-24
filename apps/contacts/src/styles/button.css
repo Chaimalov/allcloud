@@ -19,8 +19,15 @@
 
   &:hover {
     background: light-dark(
-      var(--surface-4),
+      var(--surface-3),
       color-mix(in hsl, var(--surface-3), transparent 80%)
+    );
+  }
+
+  &:active {
+    background: light-dark(
+      color-mix(in hsl, var(--surface-3), var(--surface-4) 50%),
+      color-mix(in hsl, var(--surface-3), transparent 50%)
     );
   }
 

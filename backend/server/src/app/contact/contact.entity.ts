@@ -1,9 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { Contact as ContactSchema } from '@allcloud/contacts';
 
 @Entity()
 export class Contact implements ContactSchema {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   public id: string;
 
   @Column('simple-json', { nullable: true })

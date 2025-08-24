@@ -89,7 +89,7 @@
       }
 
       &:not(:read-only) {
-        &:invalid,
+        &:user-invalid,
         &.ng-invalid {
           background-color: color-mix(in lab, var(--danger-2), transparent 80%);
         }

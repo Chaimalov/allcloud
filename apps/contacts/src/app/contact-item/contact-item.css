@@ -46,5 +46,10 @@
     color: var(--surface-3);
     animation: pulse 1s ease-in-out infinite alternate;
     overflow: visible;
+
+    display: flex;
+    font-size: 0.75rem;
+    align-items: center;
+    gap: 0.5rem;
   }
 }
