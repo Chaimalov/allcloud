@@ -11,13 +11,16 @@ export const appRoutes: Route[] = [
   {
     path: 'contacts',
     component: ContactsPageComponent,
+    title: 'Contacts',
   },
   {
     path: 'contacts/new',
     component: ContactDetailsComponent,
+    title: 'New contact',
   },
   {
     path: 'contacts/:id',
     component: ContactDetailsComponent,
+    title: 'Contact details',
   },
 ];

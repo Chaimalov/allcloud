@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'node_modules/open-props/animations.min.css';
+@import 'https://unpkg.com/open-props';
+
 @import './styles/button.css';
 @import './styles/utils.css';
 
@@ -79,4 +80,21 @@ body {
   to {
     opacity: 90%;
   }
+}
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: var(--animation-slide-in-left);
+}
+
+.back-transition::view-transition-new(root) {
+  animation: var(--animation-slide-in-right);
+}
+
+.back-transition::view-transition-old(root) {
+  z-index: -1;
+  animation: var(--animation-slide-out-right);
 }

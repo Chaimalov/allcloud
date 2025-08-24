@@ -10,10 +10,7 @@
     <ol>
       @for (contact of letter.value; track contact.id) {
       <li>
-        <app-contact-item
-          [contact]="contact"
-          [style.view-transition-name]="`contact-${contact.id}`"
-        ></app-contact-item>
+        <app-contact-item [contact]="contact"></app-contact-item>
       </li>
       }
     </ol>

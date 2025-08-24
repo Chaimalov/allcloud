@@ -18,7 +18,17 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       appRoutes,
       withComponentInputBinding(),
-      withViewTransitions(),
+      withViewTransitions({
+        skipInitialTransition: true,
+        onViewTransitionCreated: ({ transition, to }) => {
+          if (to.firstChild?.title === 'Contacts') {
+            document.documentElement.classList.add('back-transition');
+            transition.finished.then(() => {
+              document.documentElement.classList.remove('back-transition');
+            });
+          }
+        },
+      }),
     ),
     provideHttpClient(),
   ],
