@@ -32,11 +32,8 @@ export function withPendingRequest<T>(
   pending.set(subscription);
 
   return {
-    request$: response.asObservable(),
+    request$: response.pipe(finalize(() => subscription.unsubscribe())),
     pending,
-    cancel: () => {
-      pending()?.unsubscribe();
-      pending.set(undefined);
-    },
+    cancel: () => pending()?.unsubscribe(),
   };
 }
