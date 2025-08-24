@@ -1,5 +1,9 @@
 :host {
   display: grid;
+  grid-template-rows: auto 1fr;
+  padding: 1rem;
+  height: 100dvh;
+  overflow: hidden;
 
   header {
     display: grid;
@@ -9,8 +13,12 @@
   }
 
   main {
+    overflow: auto;
     padding: 1rem;
-    background: light-dark(var(--surface-5), var(--surface-1));
+    background: light-dark(
+      var(--surface-5),
+      color-mix(in oklch, var(--surface-1), black 20%)
+    );
     border-radius: 1rem;
   }
 }

@@ -1,17 +1,70 @@
 :host {
   display: block;
+  height: 100%;
+  overflow: auto;
+  container-type: inline-size;
+  container-name: --contacts-list;
 
-  & ul {
+  ol {
     list-style: none;
     padding-inline-start: 0;
+    margin-block: 0;
+
+    @container --contacts-list (width > 500px) {
+      display: contents;
+
+      > span {
+        display: none;
+      }
+    }
+  }
+
+  .list {
+    height: 100%;
+    width: calc(100% - 1rem);
+    overflow: auto;
+    scroll-behavior: smooth;
+
+    scroll-snap-type: y mandatory;
+    scroll-marker-group: before;
 
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
     gap: 0.5rem;
 
-    /* > * + * {
-      border: 0px solid light-dark(var(--surface-4), var(--surface-2));
-      border-block-start-width: 1px;
-    } */
+    anchor-name: --my-anchor;
+
+    &::scroll-marker-group {
+      display: grid;
+      position-anchor: --my-anchor;
+      position: absolute;
+      top: anchor(top);
+      left: calc(anchor(right) + 0.5rem);
+      right: anchor(left);
+      bottom: anchor(bottom);
+    }
+
+    > .letter {
+      scroll-snap-align: start;
+
+      span {
+        display: block;
+        padding: 0.5rem;
+        color: var(--surface-3);
+      }
+
+      &::scroll-marker {
+        content: attr(data-key);
+        text-decoration: none;
+        color: inherit;
+        opacity: 30%;
+        font-size: 0.75rem;
+        line-height: 1;
+      }
+
+      &::scroll-marker:target-current {
+        opacity: 100%;
+      }
+    }
   }
 }

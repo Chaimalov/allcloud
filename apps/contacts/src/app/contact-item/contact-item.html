@@ -3,14 +3,19 @@
   <img
     width="50"
     height="50"
+    priority="high"
     [ngSrc]="picture"
     [alt]="`profile picture of ${contact().name?.first} ${contact().name?.last}`"
   />
   } @else {
-  <lucide-icon [name]="UserRound" size="50" />
+  <lucide-icon class="avatar" [name]="icons.UserRound" size="50" />
   }
-  <span class="capitalize"
+  <span class="name" class="capitalize"
     >{{ contact().name?.first }} {{ contact().name?.last }}</span
   >
-  <small>{{ contact().phone }}</small>
+  <small class="phone">{{ contact().phone }}</small>
+
+  @if (contact().pendingRequest?.()) {
+  <lucide-icon class="icon" [name]="icons.CloudAlert" size="18" />
+  }
 </a>

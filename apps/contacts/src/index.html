@@ -8,10 +8,23 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="book-user.svg" />
     <link rel="preconnect" href="https://randomuser.me" />
     <meta name="theme-color" content="#555" />
   </head>
+  <style>
+    :root {
+      --surface-1: rgb(27, 2, 53);
+      --surface-3: rgb(142, 130, 154);
+      --surface-4: rgb(233, 233, 235);
+      --surface-5: rgb(250, 250, 250);
+
+      background-color: light-dark(
+        color-mix(in hsl, var(--surface-3), transparent 80%),
+        var(--surface-1)
+      );
+    }
+  </style>
   <body>
     <app-root></app-root>
   </body>

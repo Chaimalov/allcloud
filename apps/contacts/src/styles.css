@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'node_modules/open-props/animations.min.css';
 @import './button.css';
+@import './utils.css';
 
 @font-face {
   font-family: 'FiraSans';
@@ -47,7 +49,6 @@
   --surface-3: rgb(142, 130, 154);
   --surface-4: rgb(233, 233, 235);
   --surface-5: rgb(250, 250, 250);
-  --accent: rgb(18, 138, 51);
 
   --danger-1: rgb(255, 0, 0);
   --danger-2: rgb(255, 100, 100);
@@ -63,4 +64,27 @@
 
 body {
   font-family: 'FiraSans', sans-serif;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 50%;
+  }
+
+  to {
+    opacity: 90%;
+  }
+}
+
+::view-transition-new(li:has(app-contact-item)):only-child {
+  animation: var(--animation-slide-in-down) forwards;
+}
+
+::view-transition-old(li:has(app-contact-item)):only-child {
+  animation: var(--animation-fade-out) forwards;
 }

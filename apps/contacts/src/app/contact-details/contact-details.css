@@ -33,6 +33,11 @@
       place-self: center;
       font-size: 1.5rem;
       text-transform: capitalize;
+
+      &:empty::after {
+        content: 'your name';
+        text-transform: capitalize;
+      }
     }
 
     fieldset {
@@ -81,6 +86,13 @@
 
       &::placeholder {
         color: var(--surface-3);
+      }
+
+      &:not(:read-only) {
+        &:invalid,
+        &.ng-invalid {
+          background-color: color-mix(in lab, var(--danger-2), transparent 80%);
+        }
       }
     }
 

@@ -12,31 +12,30 @@ import { ContactService } from './contact.service';
 
 @Controller('contacts')
 export class ContactController {
-  constructor(private readonly contactService: ContactService) {}
+  public constructor(private readonly contactService: ContactService) {}
 
   @Get()
-  findAll() {
+  public findAll() {
     return this.contactService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  public findOne(@Param('id') id: string) {
     return this.contactService.findOne(id);
   }
 
   @Post()
-  create(@Body() contact: Contact) {
-    console.log(contact);
+  public create(@Body() contact: Contact) {
     return this.contactService.create(contact);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() contact: Contact) {
+  public update(@Param('id') id: string, @Body() contact: Contact) {
     return this.contactService.update(id, contact);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  public remove(@Param('id') id: string) {
     return this.contactService.remove(id);
   }
 }

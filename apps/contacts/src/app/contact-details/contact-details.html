@@ -4,63 +4,76 @@
       <lucide-icon [name]="ArrowLeft" size="24" />
     </a>
     @if (!isEditing()) {
-    <button (click)="isEditing.set(true)" class="button">
+    <button (click)="isEditing.set(true)" type="button" class="button">
       <lucide-icon [name]="UserRoundPen" size="24" />
     </button>
     } @else {
-    <button (click)="isEditing.set(false)" class="button">
+    <button type="submit" class="button">
       <lucide-icon [name]="Check" size="24" />
     </button>
     }
   </header>
 
-  @if (contact.value()?.picture?.large; as picture) {
+  @let name = this.form.controls.name.controls; @if
+  (contact.value()?.picture?.large; as picture) {
   <img
     width="200"
     height="200"
     priority="high"
     [ngSrc]="picture"
-    [alt]="`photo of ${ firstName() } ${ lastName() }`"
+    #img
+    (error)="img.src = contact.value()?.picture?.thumbnail!"
+    [alt]="`photo of ${ name.title.value() }. ${ name.first.value() } ${ name.last.value() }`"
   />
   } @else {
   <lucide-icon class="avatar" [name]="UserRound" size="200" />
   }
 
-  <h3>{{ title() }}. {{ firstName() }} {{ lastName() }}</h3>
-
+  <h3>
+    @if (name.title.value(); as title) { {{ name.title.value() }}. } {{
+    name.first.value() }} {{ name.last.value() }}
+  </h3>
   <fieldset>
     <input
       type="text"
-      [readOnly]="!isEditing()"
       placeholder="Title"
       name="title"
-      [(ngModel)]="title"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.name.controls.title"
     />
     <input
       type="text"
       placeholder="First Name"
       name="firstName"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="firstName"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.name.controls.first"
     />
     <input
       type="text"
       placeholder="Last Name"
       name="lastName"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="lastName"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.name.controls.last"
     />
     <input
       type="email"
       placeholder="Email"
       name="email"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="email"
       inputmode="email"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.email"
+    />
+  </fieldset>
+
+  <fieldset>
+    <input
+      type="number"
+      min="0"
+      inputmode="numeric"
+      placeholder="Age"
+      name="age"
+      ngModel
+      [formField]="form.controls.age"
     />
   </fieldset>
 
@@ -70,18 +83,16 @@
       inputmode="tel"
       placeholder="Phone"
       name="phone"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="phone"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.phone"
     />
     <input
       type="text"
-      placeholder="Cell"
       inputmode="tel"
+      placeholder="Cell"
       name="cell"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="cell"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.cell"
     />
   </fieldset>
 
@@ -90,49 +101,44 @@
       type="text"
       placeholder="Street Name"
       name="streetName"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="streetName"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.location.controls.street.controls.name"
     />
     <input
       type="string"
       placeholder="Apartment"
+      inputmode="numeric"
       name="house"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="house"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.location.controls.street.controls.number"
     />
     <input
       type="text"
       placeholder="City"
       name="city"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="city"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.location.controls.city"
     />
     <input
       type="text"
       placeholder="Country"
       name="country"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="country"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.location.controls.country"
     />
     <input
       type="text"
       placeholder="State"
       name="state"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="state"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.location.controls.state"
     />
     <input
       type="string"
       placeholder="Postcode"
       name="postcode"
-      [readOnly]="!isEditing()"
-      [(ngModel)]="postcode"
-      [ngModelOptions]="{standalone: true}"
+      ngModel
+      [formField]="form.controls.location.controls.postcode"
     />
   </fieldset>
 </form>

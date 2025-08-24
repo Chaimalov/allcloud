@@ -1,17 +1,22 @@
-import { Contact } from '@allcloud/contacts';
+import { Contact as ContactInfo } from '@allcloud/contacts';
+import { Signal, WritableSignal } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export class AbortSubject {
-   #subject = new Subject<void>();
+  #subject = new Subject<void>();
 
-   public subject = this.#subject.asObservable();
+  public subject = this.#subject.asObservable();
 
-   public abort(): void {
-      this.#subject.next();
-      this.#subject.complete();
-   }
+  public abort(): void {
+    this.#subject.next();
+    this.#subject.complete();
+  }
+
+  public complete(): void {
+    this.#subject.complete();
+  }
 }
 
-export interface PendingSyncContact extends Contact {
-   pendingRequest?: AbortSubject;
+export interface Contact extends ContactInfo {
+  pendingRequest?: WritableSignal<AbortSubject | undefined>;
 }

@@ -1,3 +1,11 @@
 .capitalize {
   text-transform: capitalize;
 }
+
+.error {
+  color: var(--danger-2);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: color-mix(in oklab, var(--danger-2), transparent 50%);
+  border: 1px solid var(--danger-2);
+}

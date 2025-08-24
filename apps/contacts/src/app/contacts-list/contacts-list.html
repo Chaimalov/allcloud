@@ -1,9 +1,19 @@
-<ul>
-  @for (contact of sortedContacts(); track contact.id) {
-  <li>
-    <app-contact-item [contact]="contact"></app-contact-item>
-  </li>
-  } @empty {
+<ol class="list">
+  @if (api.contacts.error()) {
+  <div class="error">
+    <span>Error: {{api.contacts.error()}}</span>
+  </div>
+
+  } @for (letter of groupedContacts() | keyvalue; track letter.key) {
+  <ol class="letter" [attr.data-key]="letter.key">
+    <span>{{letter.key}}</span>
+    @for (contact of letter.value; track contact.id) {
+    <li>
+      <app-contact-item [contact]="contact"></app-contact-item>
+    </li>
+    }
+  </ol>
+  }@empty {
   <span>No contacts found.</span>
   }
-</ul>
+</ol>

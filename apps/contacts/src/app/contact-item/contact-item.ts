@@ -1,8 +1,13 @@
-import { Contact } from '@allcloud/contacts';
 import { NgOptimizedImage } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, UserRound } from 'lucide-angular';
+import {
+  CloudAlert,
+  LucideAngularModule,
+  User,
+  UserRound,
+} from 'lucide-angular';
+import { Contact } from '../abort-subject';
 
 @Component({
   selector: 'app-contact-item',
@@ -12,5 +17,9 @@ import { LucideAngularModule, UserRound } from 'lucide-angular';
 })
 export class ContactItemComponent {
   public contact = input.required<Contact>();
-  protected UserRound = UserRound;
+
+  protected icons = {
+    UserRound,
+    CloudAlert,
+  };
 }

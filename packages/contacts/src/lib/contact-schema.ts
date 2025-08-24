@@ -1,5 +1,6 @@
 export interface Contact {
-  id: number;
+  id: string;
+  age?: number;
   name?: Partial<{
     title: string;
     first: string;

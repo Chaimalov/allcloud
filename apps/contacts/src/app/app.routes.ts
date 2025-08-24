@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { ContactDetailsPageComponent } from './contact-details-page/contact-details-page';
+import { ContactDetailsComponent } from './contact-details/contact-details';
 import { ContactsPageComponent } from './contacts-page/contacts-page';
 
 export const appRoutes: Route[] = [
@@ -14,10 +14,10 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'contacts/new',
-    component: ContactDetailsPageComponent,
+    component: ContactDetailsComponent,
   },
   {
     path: 'contacts/:id',
-    component: ContactDetailsPageComponent,
+    component: ContactDetailsComponent,
   },
 ];

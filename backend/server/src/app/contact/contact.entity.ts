@@ -3,18 +3,18 @@ import { Contact as ContactSchema } from '@allcloud/contacts';
 
 @Entity()
 export class Contact implements ContactSchema {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
 
   @Column('simple-json', { nullable: true })
-  name: {
+  public name: {
     title: string;
     first: string;
     last: string;
   };
 
   @Column('simple-json', { nullable: true })
-  location: {
+  public location: {
     street: {
       number: number;
       name: string;
@@ -26,19 +26,22 @@ export class Contact implements ContactSchema {
   };
 
   @Column({ nullable: true })
-  email: string;
+  public email: string;
 
   @Column()
-  registrationDate: Date;
+  public registrationDate: Date;
 
   @Column({ nullable: true })
-  phone: string;
+  public phone: string;
 
   @Column({ nullable: true })
-  cell: string;
+  public cell: string;
+
+  @Column({ nullable: true })
+  public age: number;
 
   @Column('simple-json', { nullable: true })
-  picture: {
+  public picture: {
     large: string;
     medium: string;
     thumbnail: string;
