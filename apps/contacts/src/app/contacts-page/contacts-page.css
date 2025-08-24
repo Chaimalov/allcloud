@@ -6,10 +6,13 @@
   overflow: hidden;
 
   header {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
+    display: flex;
     align-items: center;
     padding: 1rem;
+
+    h1 {
+      margin-inline-end: auto;
+    }
   }
 
   main {
