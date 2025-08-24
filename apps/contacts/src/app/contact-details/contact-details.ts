@@ -1,4 +1,4 @@
-import { Contact, NewContact } from '@allcloud/contacts';
+import { Contact } from '@allcloud/contacts';
 import { NgOptimizedImage } from '@angular/common';
 import {
   Component,
@@ -183,9 +183,9 @@ export class ContactDetailsComponent {
       const contact = {
         ...this.contact.value(),
         ...this.form.value(),
-      } satisfies Contact | NewContact;
+      } satisfies Omit<Contact, 'id'>;
 
-      firstValueFrom(this.api.saveContact(contact));
+      firstValueFrom(this.api.saveContact(contact as Contact));
 
       this.isEditing.set(false);
       this.router.navigate(['/contacts']);

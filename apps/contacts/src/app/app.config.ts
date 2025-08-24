@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       appRoutes,
       withComponentInputBinding(),
-      withViewTransitions()
+      withViewTransitions(),
     ),
     provideHttpClient(),
   ],

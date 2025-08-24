@@ -1,13 +1,8 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  CloudAlert,
-  LucideAngularModule,
-  User,
-  UserRound,
-} from 'lucide-angular';
-import { Contact } from '../api/abort-subject';
+import { CloudAlert, LucideAngularModule, UserRound } from 'lucide-angular';
+import { Contact } from '../api';
 
 @Component({
   selector: 'app-contact-item',

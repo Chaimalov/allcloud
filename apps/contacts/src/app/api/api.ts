@@ -1,18 +1,19 @@
-import { CONTACT_FIELDS, NewContact } from '@allcloud/contacts';
+import { CONTACT_FIELDS } from '@allcloud/contacts';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { v4 } from 'uuid';
 import {
   finalize,
   firstValueFrom,
   forkJoin,
   map,
   Observable,
+  Subject,
+  Subscription,
   switchMap,
-  takeUntil,
   tap,
 } from 'rxjs';
-import { AbortSubject, Contact } from './abort-subject';
+import { v4 } from 'uuid';
+import { Contact } from '.';
 import { retryOnReconnect } from './replay-on-reconnect';
 
 const RANDOM_GENERATION_AMOUNT = 5;
@@ -75,20 +76,33 @@ export class ContactsApi {
     );
   }
 
-  public saveContact(contact: Contact | NewContact): Observable<Contact> {
+  public saveContact(contact: Contact): Observable<Contact> {
     return 'id' in contact
       ? this.updateContact(contact)
       : this.createContact(contact);
   }
 
   private updateContact(contact: Contact): Observable<Contact> {
-    contact.pendingRequest?.()?.abort();
+    contact.pendingRequest?.()?.unsubscribe();
 
-    const abortSubject = new AbortSubject();
+    const response = new Subject<Contact>();
+
+    const subscription = this.http
+      .put<Contact>(`${SERVER_URL}/${contact.id}`, contact)
+      .pipe(
+        retryOnReconnect(),
+        finalize(() => {
+          response.complete();
+          pendingRequest.set(undefined);
+        }),
+      )
+      .subscribe(response.next);
+
+    const pendingRequest = signal<Subscription | undefined>(subscription);
 
     const updatedContact: Contact = {
       ...contact,
-      pendingRequest: signal(abortSubject),
+      pendingRequest,
     };
 
     this.contacts.update((contacts) =>
@@ -97,33 +111,40 @@ export class ContactsApi {
       ),
     );
 
-    return this.http.put<Contact>(`${SERVER_URL}/${contact.id}`, contact).pipe(
-      takeUntil(abortSubject.subject),
-      retryOnReconnect(),
-      finalize(() => {
-        updatedContact.pendingRequest?.()?.complete();
-        updatedContact.pendingRequest?.set(undefined);
-      }),
-    );
+    return response.asObservable();
   }
 
-  private createContact(contact: NewContact): Observable<Contact> {
-    const abortSubject = new AbortSubject();
+  private createContact(contact: Omit<Contact, 'id'>): Observable<Contact> {
+    contact.pendingRequest?.()?.unsubscribe();
+
+    const response = new Subject<Contact>();
 
     const newContact: Contact = {
       ...contact,
       id: v4(),
-      pendingRequest: signal(abortSubject),
     };
 
-    this.contacts.update((contacts) => [...contacts, newContact]);
+    const subscription = this.http
+      .post<Contact>(SERVER_URL, newContact)
+      .pipe(
+        retryOnReconnect(),
+        finalize(() => {
+          response.complete();
+          pendingRequest.set(undefined);
+        }),
+      )
+      .subscribe(response.next);
 
-    return this.http.post<Contact>(SERVER_URL, newContact).pipe(
-      retryOnReconnect(),
-      finalize(() => {
-        newContact.pendingRequest?.()?.complete();
-        newContact.pendingRequest?.set(undefined);
-      }),
-    );
+    const pendingRequest = signal<Subscription | undefined>(subscription);
+
+    this.contacts.update((contacts) => [
+      ...contacts,
+      {
+        ...newContact,
+        pendingRequest,
+      },
+    ]);
+
+    return response.asObservable();
   }
 }

@@ -27,8 +27,6 @@ export interface Contact {
   }>;
 }
 
-export type NewContact = Omit<Contact, 'id'>;
-
 export const CONTACT_FIELDS = [
   'name',
   'location',
