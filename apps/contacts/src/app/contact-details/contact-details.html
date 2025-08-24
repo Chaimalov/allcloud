@@ -3,7 +3,15 @@
     <a routerLink="/contacts" class="button">
       <lucide-icon [name]="icons.ArrowLeft" size="24" />
     </a>
-    @if (!isEditing()) {
+    @if (contact.hasValue()) {
+    <button
+      class="button button-danger"
+      (click)="api.deleteContact(contact.value().id); router.navigate(['/contacts'])"
+    >
+      <lucide-icon [name]="icons.Trash" size="24" />
+      <span>Delete</span>
+    </button>
+    } @if (!isEditing()) {
     <button (click)="isEditing.set(true)" type="button" class="button">
       <lucide-icon [name]="icons.UserRoundPen" size="24" />
     </button>
@@ -146,13 +154,3 @@
     />
   </fieldset>
 </form>
-
-@if (contact.hasValue()) {
-<button
-  class="button button-danger"
-  (click)="api.deleteContact(contact.value().id); router.navigate(['/contacts'])"
->
-  <lucide-icon [name]="icons.Trash" size="18" />
-  <span>Delete</span>
-</button>
-}

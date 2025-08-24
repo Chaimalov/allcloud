@@ -36,18 +36,14 @@
   }
 
   &.button-danger {
-    margin: auto;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: var(--danger-1);
-    color: light-dark(var(--danger-3), var(--danger-3));
+    background: color-mix(in hsl, var(--danger-2), transparent 30%);
+    color: light-dark(var(--surface-5), var(--danger-3));
 
     &:hover {
-      background: light-dark(
-        var(--danger-1),
-        color-mix(in hsl, var(--danger-1), transparent 50%)
-      );
+      background: var(--danger-1);
     }
   }
 }
