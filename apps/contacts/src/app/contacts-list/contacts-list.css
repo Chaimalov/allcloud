@@ -46,10 +46,10 @@
       display: grid;
       position-anchor: --my-anchor;
       position: absolute;
-      top: anchor(top);
-      left: calc(anchor(right) + 0.5rem);
-      right: anchor(left);
-      bottom: anchor(bottom);
+      inset-block-start: anchor(start);
+      inset-block-end: anchor(end);
+      inset-inline-start: calc(anchor(end) + 0.5rem);
+      inset-inline-end: anchor(start);
     }
 
     > .section {

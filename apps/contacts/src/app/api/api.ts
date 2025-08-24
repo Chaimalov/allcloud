@@ -91,10 +91,10 @@ export class ContactsApi {
       contact.pendingRequest,
     );
 
-    const updatedContact: Contact = { ...contact, pendingRequest: pending };
-
     this.contacts.update((contacts) =>
-      contacts.map((c) => (c.id === contact.id ? updatedContact : c)),
+      contacts.map((c) =>
+        c.id === contact.id ? { ...contact, pendingRequest: pending } : c,
+      ),
     );
 
     return request$;
