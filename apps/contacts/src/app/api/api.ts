@@ -15,6 +15,7 @@ import {
 import { v4 } from 'uuid';
 import { Contact } from '.';
 import { retryOnReconnect } from './replay-on-reconnect';
+import { withPendingRequest } from './pending-request';
 
 const RANDOM_GENERATION_AMOUNT = 5;
 const INCLUDE_FIELDS = CONTACT_FIELDS.join(',');
@@ -83,68 +84,40 @@ export class ContactsApi {
   }
 
   private updateContact(contact: Contact): Observable<Contact> {
-    contact.pendingRequest?.()?.unsubscribe();
-
-    const response = new Subject<Contact>();
-
-    const subscription = this.http
-      .put<Contact>(`${SERVER_URL}/${contact.id}`, contact)
-      .pipe(
-        retryOnReconnect(),
-        finalize(() => {
-          response.complete();
-          pendingRequest.set(undefined);
-        }),
-      )
-      .subscribe(response.next);
-
-    const pendingRequest = signal<Subscription | undefined>(subscription);
-
-    const updatedContact: Contact = {
-      ...contact,
-      pendingRequest,
-    };
-
-    this.contacts.update((contacts) =>
-      contacts.map((c) =>
-        c.id === contact.id ? { ...c, ...updatedContact } : c,
-      ),
+    const { request$, pending } = withPendingRequest(
+      this.http
+        .put<Contact>(`${SERVER_URL}/${contact.id}`, contact)
+        .pipe(retryOnReconnect()),
+      contact.pendingRequest,
     );
 
-    return response.asObservable();
+    const updatedContact: Contact = { ...contact, pendingRequest: pending };
+
+    this.contacts.update((contacts) =>
+      contacts.map((c) => (c.id === contact.id ? updatedContact : c)),
+    );
+
+    return request$;
   }
 
   private createContact(contact: Omit<Contact, 'id'>): Observable<Contact> {
-    contact.pendingRequest?.()?.unsubscribe();
-
-    const response = new Subject<Contact>();
-
     const newContact: Contact = {
       ...contact,
       id: v4(),
     };
 
-    const subscription = this.http
-      .post<Contact>(SERVER_URL, newContact)
-      .pipe(
-        retryOnReconnect(),
-        finalize(() => {
-          response.complete();
-          pendingRequest.set(undefined);
-        }),
-      )
-      .subscribe(response.next);
-
-    const pendingRequest = signal<Subscription | undefined>(subscription);
+    const { request$, pending } = withPendingRequest(
+      this.http.post<Contact>(SERVER_URL, newContact).pipe(retryOnReconnect()),
+    );
 
     this.contacts.update((contacts) => [
       ...contacts,
       {
         ...newContact,
-        pendingRequest,
+        pendingRequest: pending,
       },
     ]);
 
-    return response.asObservable();
+    return request$;
   }
 }
