@@ -33,12 +33,6 @@
     h3 {
       place-self: center;
       font-size: 1.5rem;
-      text-transform: capitalize;
-
-      &:empty::after {
-        content: 'your name';
-        text-transform: capitalize;
-      }
     }
 
     fieldset {
