@@ -34,6 +34,6 @@ export function withPendingRequest<T>(
   return {
     request$: response.pipe(finalize(() => subscription.unsubscribe())),
     pending,
-    cancel: () => pending()?.unsubscribe(),
+    cancel: () => subscription.unsubscribe(),
   };
 }
